@@ -14,6 +14,8 @@ RUN apt update \
     && sed -i "s/^.*X11Forwarding.*$/X11Forwarding yes/" /etc/ssh/sshd_config \
     && sed -i "s/^.*X11UseLocalhost.*$/X11UseLocalhost no/" /etc/ssh/sshd_config \
     && grep "^X11UseLocalhost" /etc/ssh/sshd_config || echo "X11UseLocalhost no" >> /etc/ssh/sshd_config \
-    && echo -e 'password\npassword' | passwd
+    && echo "pass" > /password.txt \
+    && cat /password.txt /password.txt | passwd \
+    && rm /password.txt
 
 ENTRYPOINT ["sh", "-c", "/usr/sbin/sshd && tail -f /dev/null"]
